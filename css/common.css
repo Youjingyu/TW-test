@@ -1,3 +1,4 @@
+/********************* reset start *********************/
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
@@ -11,6 +12,10 @@ ul {
     margin: 0;
     padding: 0;
 }
+div, a, ul, li{
+    box-sizing: border-box;
+}
+/********************* reset end *********************/
 
 /********************* clearfix start *********************/
 .cr-clearfix:before,
@@ -21,7 +26,6 @@ ul {
 .cr-clearfix:after {
     clear: both;
 }
-
 /********************* clearfix end *********************/
 
 .cr-container {
@@ -92,30 +96,27 @@ ul {
     color: #E7E7E7;
     background-color: #606060;
 }
-
 /********************* header end *********************/
 
 /********************* main start *********************/
 .cr-main {
-    height: 500px;
     border: 3px solid #000;
 }
+/********* main nav start *********/
 .cr-main-nav{
-    height: 0.5rem;
-    line-height: 0.5rem;
+    padding: 0.1rem 0.18rem;
     border-bottom: 3px solid #000;
     background-color: #606060;
 }
 .cr-main-nav > h3{
     float: left;
-    margin: 0 0 0 0.18rem;
+    margin: 0;
     color: #E7E7E7;
     font-size: 0.25rem;
 }
 .cr-main-nav-list{
     float: left;
     list-style: none;
-    height: 100%;
 }
 .cr-main-nav-list > li{
     float: left;
@@ -123,16 +124,49 @@ ul {
 }
 .cr-main-nav-list > li > a{
     display: inline-block;
-    padding: 0.08rem 0.12rem;
+    padding: 0.06rem 0.12rem;
     min-width: 0.75rem;
-    box-sizing: border-box;
     border: 2px solid #3C3B3B;
     border-radius: 25px;
-    line-height: 1;
     text-align: center;
     background-color: #999;
 }
 .cr-main-nav-list > li > .active {
     background-color: #DDD;
 }
+/********* main nav end *********/
+/********* main content start *********/
+.cr-main-content{
+    position: relative;
+    min-height: 5.2rem;
+}
+.cr-main-list{
+    float: left;
+    padding: 0.18rem;
+    list-style: none;
+    width: 9.25rem;
+}
+.cr-main-item{
+    border: 2px solid #444;
+}
+.cr-main-item > i{
+    float: left;
+    display: inline-block;
+    width: 0.52rem;
+    height: 0.52rem;
+    border-radius: 50%;
+    background-color: #929292;
+}
+.cr-main-item-content{
+    float: right;
+}
+.cr-main-summary{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 9.25rem;
+    right: 0;
+    border-left: 2px solid #444;
+}
+/********* main content end *********/
 /********************* main end *********************/
