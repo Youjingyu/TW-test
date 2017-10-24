@@ -6,7 +6,7 @@ body {
 }
 a {
     text-decoration: none;
-    color: #0B1245;
+    color: #333;
 }
 ul {
     margin: 0;
@@ -31,7 +31,7 @@ div, a, ul, li{
 
 
 .cr-container {
-    margin: 0 auto;
+    margin: 0 0.2rem;
     max-width: 12.2rem;
 }
 
@@ -155,7 +155,14 @@ div, a, ul, li{
     width: 9.25rem;
 }
 .cr-main-item{
+    padding: 0.1rem 0.2rem;
     border: 2px solid #444;
+}
+.cr-main-item-idle{
+    background-color: #CCE8B5;
+}
+.cr-main-item-building{
+    background-color: #FFFBB9;
 }
 .cr-main-item > i{
     float: left;
@@ -168,6 +175,7 @@ div, a, ul, li{
 .cr-main-item-content{
     float: left;
     margin-left: 0.2rem;
+    padding: 0.08rem 0;
 }
 .cr-main-item-row-1{
     font-weight: bold;
@@ -178,8 +186,35 @@ div, a, ul, li{
 .cr-main-item-line{
     color: #92A1A3;
 }
+.cr-main-item-row-2{
+    font-size: 14px;
+    line-height: 0.18rem;
+}
 .cr-main-item-row-2 > i:first-child{
     font-weight: bold;
+}
+.cr-main-item-row-2 a{
+    text-decoration: underline;
+}
+.cr-main-item-row-2 > span:last-child{
+    float: right;
+}
+.cr-main-item-reso{
+    margin-right: 0.22rem;
+}
+.cr-main-item-icon{
+    display: inline-block;
+    width: 0.18rem;
+    height: 0.18rem;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    vertical-align: middle;
+}
+.cr-main-item-delete{
+    background-image: url("../img/delete.png");
+}
+.cr-main-item-deny{
+    background-image: url("../img/deny.png");
 }
 /* main content list end */
 
