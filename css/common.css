@@ -6,7 +6,7 @@ body {
 }
 a {
     text-decoration: none;
-    color: #333;
+    color: #0B1245;
 }
 ul {
     margin: 0;
@@ -16,6 +16,7 @@ div, a, ul, li{
     box-sizing: border-box;
 }
 /********************* reset end *********************/
+
 
 /********************* clearfix start *********************/
 .cr-clearfix:before,
@@ -28,10 +29,12 @@ div, a, ul, li{
 }
 /********************* clearfix end *********************/
 
+
 .cr-container {
     margin: 0 auto;
     max-width: 12.2rem;
 }
+
 
 /********************* header start *********************/
 .cr-header{
@@ -98,10 +101,12 @@ div, a, ul, li{
 }
 /********************* header end *********************/
 
+
 /********************* main start *********************/
 .cr-main {
     border: 3px solid #000;
 }
+
 /********* main nav start *********/
 .cr-main-nav{
     padding: 0.1rem 0.18rem;
@@ -135,11 +140,14 @@ div, a, ul, li{
     background-color: #DDD;
 }
 /********* main nav end *********/
+
 /********* main content start *********/
 .cr-main-content{
     position: relative;
     min-height: 5.2rem;
 }
+
+/* main content list start */
 .cr-main-list{
     float: left;
     padding: 0.18rem;
@@ -158,8 +166,24 @@ div, a, ul, li{
     background-color: #929292;
 }
 .cr-main-item-content{
-    float: right;
+    float: left;
+    margin-left: 0.2rem;
 }
+.cr-main-item-row-1{
+    font-weight: bold;
+}
+.cr-main-item-row-1 > span:first-child{
+    margin-right: 0.26rem;
+}
+.cr-main-item-line{
+    color: #92A1A3;
+}
+.cr-main-item-row-2 > i:first-child{
+    font-weight: bold;
+}
+/* main content list end */
+
+/* main content summary start */
 .cr-main-summary{
     position: absolute;
     top: 0;
@@ -168,5 +192,7 @@ div, a, ul, li{
     right: 0;
     border-left: 2px solid #444;
 }
+/* main content summary end */
+
 /********* main content end *********/
 /********************* main end *********************/
