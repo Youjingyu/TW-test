@@ -152,8 +152,13 @@ div, a, ul, li{
     width: 9.25rem;
 }
 .cr-main-item{
+    margin-top: 0.21rem;
     padding: 0.1rem 0.2rem;
     border: 2px solid #444;
+    border-radius: 10px;
+}
+.cr-main-item:first-child{
+    margin-top: 0;
 }
 .cr-main-item-idle{
     background-color: #CCE8B5;
@@ -193,7 +198,7 @@ div, a, ul, li{
 .cr-main-item-row-2 a{
     text-decoration: underline;
 }
-.cr-main-item-row-2 > span:last-child{
+.cr-main-item-deny-con{
     float: right;
 }
 .cr-main-item-reso{
@@ -212,6 +217,9 @@ div, a, ul, li{
 }
 .cr-main-item-deny{
     background-image: url("../img/deny.png");
+}
+.cr-main-item-building .cr-main-item-delete{
+    background-image: url("../img/delete-2.png");
 }
 /* main content list end */
 
