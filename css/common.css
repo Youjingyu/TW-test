@@ -51,7 +51,7 @@ div, a, ul, li{
     position: relative;
     float: right;
     height: 100%;
-    font-size: 0.14rem;
+    font-size: 14px;
 }
 .cr-member-operation {
     text-align: right;
@@ -224,13 +224,34 @@ div, a, ul, li{
 /* main content list end */
 
 /* main content summary start */
-.cr-main-summary{
+.cr-main-summary-con{
     position: absolute;
     top: 0;
     bottom: 0;
     left: 9.25rem;
     right: 0;
+    padding: 0.08rem 0.08rem 0.08rem 0.2rem;
     border-left: 2px solid #444;
+}
+.cr-main-summary > h4{
+    margin: 0.12rem 0;
+    font-weight: bold;
+}
+.cr-main-summary > ul{
+    padding: 0 0.06rem;
+    list-style: none;
+    border-top: 2px solid #D0D0D0;
+    line-height: 2.5;
+    font-size: 14px;
+}
+.cr-main-summary > ul > li{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.cr-main-summary-type{
+    display: inline-block;
+    width: 1.28rem;
 }
 /* main content summary end */
 
