@@ -173,11 +173,11 @@ div, a, ul, li{
     background-color: #929292;
 }
 .cr-main-item-content{
-    float: left;
-    margin-left: 0.2rem;
+    margin-left: 0.72rem;
     padding: 0.08rem 0;
 }
 .cr-main-item-row-1{
+    line-height: 1.2;
     font-weight: bold;
 }
 .cr-main-item-row-1 > span:first-child{
@@ -208,7 +208,7 @@ div, a, ul, li{
     height: 0.18rem;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    vertical-align: middle;
+    vertical-align: top;
 }
 .cr-main-item-delete{
     background-image: url("../img/delete.png");
