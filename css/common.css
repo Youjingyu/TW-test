@@ -51,9 +51,9 @@ div, a, ul, li{
     position: relative;
     float: right;
     height: 100%;
-    font-size: 14px;
 }
 .cr-member-operation {
+    font-size: 14px;
     text-align: right;
     line-height: 2;
 }
