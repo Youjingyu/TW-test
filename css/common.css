@@ -249,7 +249,7 @@ div, a, ul, li{
     text-overflow:ellipsis;
     white-space: nowrap;
 }
-.cr-main-summary-type{
+.cr-main-summary-status{
     display: inline-block;
     width: 1.28rem;
 }

@@ -1,0 +1,1 @@
+Cr.render('agent_list', Cr.getData().agents.physical)

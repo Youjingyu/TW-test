@@ -28,7 +28,7 @@
         })(document, window);
     </script>
     <!--[if lt IE 9]>
-    <script src=".js/html5shiv.js"></script>
+    <script src=".js/lib/html5shiv.js"></script>
     <![endif]-->
     <link rel="stylesheet" href="./css/normalize.css">
     <link rel="stylesheet" href="./css/common.css">
@@ -61,81 +61,49 @@
             </div>
             <div class="cr-main-content cr-clearfix">
                 <ul class="cr-main-list">
-                    <li class="cr-main-item cr-clearfix cr-main-item-idle">
-                        <i></i>
-                        <div class="cr-main-item-content">
-                            <div class="cr-main-item-row-1">
-                                <span>bjstdmngbgr02.thoughtworks.com</span>
-                                <span class="cr-main-item-line">|</span>
-                                <span>idle</span>
-                                <span class="cr-main-item-line">|</span>
-                                <span>192.168.1.2</span>
-                                <span class="cr-main-item-line">|</span>
-                                <span>/var/lib/cruise-agent</span>
+                    <script type="template" id="agent_list">
+                        <% for( var i = 0; i < data.length; i++) { %>
+                        <li class="cr-main-item cr-clearfix cr-main-item-idle">
+                            <i></i>
+                            <div class="cr-main-item-content">
+                                <div class="cr-main-item-row-1">
+                                    <span><%=data[i].name%></span>
+                                    <span class="cr-main-item-line">|</span>
+                                    <span><%=data[i].status%></span>
+                                    <span class="cr-main-item-line">|</span>
+                                    <span><%=data[i].ip%></span>
+                                    <span class="cr-main-item-line">|</span>
+                                    <span><%=data[i].path%></span>
+                                </div>
+                                <div class="cr-main-item-row-2">
+                                    <i>+</i>
+                                    <a href="#">Specify Resources</a>
+                                    <span class="cr-main-item-line">|</span>
+                                    <span>Resources:</span>
+                                    <% for(var j = 0; j < data[i].resources.length; j++) { %>
+                                    <span class="cr-main-item-reso">
+                                        <%=data[i].resources[j]%>
+                                        <i class="cr-main-item-icon cr-main-item-delete"></i>
+                                    </span>
+                                    <% } %>
+                                    <% if(data[i].status === 'idle'){ %>
+                                    <span class="cr-main-item-deny-con">
+                                        <i class="cr-main-item-icon cr-main-item-deny"></i>
+                                        <a href="#">Deny</a>
+                                    </span>
+                                    <% } %>
+                                </div>
                             </div>
-                            <div class="cr-main-item-row-2">
-                                <i>+</i>
-                                <a href="#">Specify Resources</a>
-                                <span class="cr-main-item-line">|</span>
-                                <span>Resources:</span>
-                                <span class="cr-main-item-reso">
-                                    ubuntu
-                                    <i class="cr-main-item-icon cr-main-item-delete"></i>
-                                </span>
-                                <span class="cr-main-item-reso">
-                                    firefox3
-                                    <i class="cr-main-item-icon cr-main-item-delete"></i>
-                                </span>
-                                <span class="cr-main-item-reso">
-                                    firefox3
-                                    <i class="cr-main-item-icon cr-main-item-delete"></i>
-                                </span>
-                                <span class="cr-main-item-deny-con">
-                                    <i class="cr-main-item-icon cr-main-item-deny"></i>
-                                    <a href="#">Deny</a>
-                                </span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="cr-main-item cr-clearfix cr-main-item-building">
-                        <i></i>
-                        <div class="cr-main-item-content">
-                            <div class="cr-main-item-row-1">
-                                <span>bjstdmngbgr02.thoughtworks.com</span>
-                                <span class="cr-main-item-line">|</span>
-                                <span>idle</span>
-                                <span class="cr-main-item-line">|</span>
-                                <span>192.168.1.2</span>
-                                <span class="cr-main-item-line">|</span>
-                                <span>/var/lib/cruise-agent</span>
-                            </div>
-                            <div class="cr-main-item-row-2">
-                                <i>+</i>
-                                <a href="#">Specify Resources</a>
-                                <span class="cr-main-item-line">|</span>
-                                <span>Resources:</span>
-                                <span class="cr-main-item-reso">
-                                    ubuntu
-                                    <i class="cr-main-item-icon cr-main-item-delete"></i>
-                                </span>
-                                <span class="cr-main-item-reso">
-                                    firefox3
-                                    <i class="cr-main-item-icon cr-main-item-delete"></i>
-                                </span>
-                                <span class="cr-main-item-reso">
-                                    firefox3
-                                    <i class="cr-main-item-icon cr-main-item-delete"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                        <% } %>
+                    </script>
                 </ul>
                 <div class="cr-main-summary-con">
                     <div class="cr-main-summary">
                         <h4>Summary</h4>
                         <ul>
-                            <li><span class="cr-main-summary-type">building</span><span>2</span></li>
-                            <li><span class="cr-main-summary-type">building</span><span>2</span></li>
+                            <li><span class="cr-main-summary-status">building</span><span>2</span></li>
+                            <li><span class="cr-main-summary-status">building</span><span>2</span></li>
                         </ul>
                     </div>
                     <div class="cr-main-summary">
@@ -150,5 +118,10 @@
         </main>
     </div>
 </body>
+<script type="template" id="template">
+
+</script>
+<script src="./js/template.js"></script>
+<script src="./js/data.js"></script>
 <script src="./js/common.js"></script>
 </html>
