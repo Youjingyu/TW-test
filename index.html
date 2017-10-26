@@ -80,16 +80,20 @@
                                     <span><%=data[i].path%></span>
                                 </div>
                                 <div class="cr-main-item-row-2">
-                                    <i>+</i>
-                                    <a href="#">Specify Resources</a>
+                                    <span class="cr-main-item-add js-add-res">
+                                        <i>+</i>
+                                        <a href="#">Specify Resources</a>
+                                    </span>
                                     <span class="cr-main-item-line">|</span>
                                     <span>Resources:</span>
-                                    <% for(var j = 0; j < data[i].resources.length; j++) { %>
-                                    <span class="cr-main-item-reso">
+                                    <div class="cr-main-item-reso">
+                                        <% for(var j = 0; j < data[i].resources.length; j++) { %>
+                                        <span>
                                         <%=data[i].resources[j]%>
-                                        <i class="cr-main-item-icon cr-main-item-delete"></i>
-                                    </span>
-                                    <% } %>
+                                            <i class="cr-main-item-icon cr-main-item-delete"></i>
+                                        </span>
+                                        <% } %>
+                                    </div>
                                     <% if(data[i].status === 'idle'){ %>
                                     <span class="cr-main-item-deny-con">
                                         <i class="cr-main-item-icon cr-main-item-deny"></i>

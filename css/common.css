@@ -193,10 +193,10 @@ div, a, ul, li{
     font-size: 14px;
     line-height: 0.18rem;
 }
-.cr-main-item-row-2 > * {
+.cr-main-item-row-2 span{
     vertical-align: middle;
 }
-.cr-main-item-row-2 > i:first-child{
+.cr-main-item-add > i{
     font-weight: bold;
 }
 .cr-main-item-row-2 a{
@@ -206,6 +206,9 @@ div, a, ul, li{
     float: right;
 }
 .cr-main-item-reso{
+    display: inline-block;
+}
+.cr-main-item-reso > span{
     margin-right: 0.22rem;
 }
 .cr-main-item-icon{
