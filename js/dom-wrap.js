@@ -4,6 +4,7 @@
         // only return one element for id selector
         if(/^#/.test(css_selector)){
             dom = document.querySelector(css_selector);
+            // add getEle and addEvent method to chain call
             dom.getEle = Cr.getEle;
             dom.on = addEvent;
         } else {
@@ -13,6 +14,13 @@
                 ele.getEle = Cr.getEle;
                 ele.on = addEvent;
             });
+            // allow to add event for element set
+            dom.on = function (type, target_sel, callback) {
+                [].forEach.call(dom, add);
+                function add(ele) {
+                    addEvent.call(ele, type, target_sel, callback);
+                };
+            }
         }
         return dom;
     }
@@ -30,7 +38,7 @@
                         callback && callback.call(target, event);
                     }
                     target = target.parentNode;
-                    // traverse to the agent element
+                    // traverse until the agent element
                     if(target.isEqualNode(this)){
                         break;
                     }
