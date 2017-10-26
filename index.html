@@ -53,10 +53,10 @@
         <main class="cr-main">
             <div class="cr-main-nav cr-clearfix">
                 <h3>Agents</h3>
-                <ul class="cr-main-nav-list">
-                    <li><a href="#">All</a></li>
-                    <li><a href="#" class="active">Physical</a></li>
-                    <li><a href="#">Virtual</a></li>
+                <ul class="cr-main-nav-list" id="main_nav">
+                    <li><a href="#" data-agent-type="all">All</a></li>
+                    <li><a href="#" class="active" data-agent-type="physical">Physical</a></li>
+                    <li><a href="#" data-agent-type="virtual">Virtual</a></li>
                 </ul>
             </div>
             <div class="cr-main-content cr-clearfix">
@@ -142,4 +142,16 @@
 <script src="./js/template.js"></script>
 <script src="./js/data.js"></script>
 <script src="./js/common.js"></script>
+<script>
+    (function () {
+        var $main_nav = Cr.getEle('#main_nav');
+        Cr.refreshList($main_nav.getEle('.active')[0].getAttribute('data-agent-type'));
+        console.log($main_nav.getEle('.active')[0]);
+        $main_nav.on('click', 'a', function () {
+            Cr.wrap(this).addClass('active');
+            $main_nav.getEle('.active')[0].removeClass('active');
+            Cr.refreshList(this.getAttribute('data-agent-type'));
+        });
+    })()
+</script>
 </html>
