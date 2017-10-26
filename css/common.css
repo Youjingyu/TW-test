@@ -1,14 +1,14 @@
 /********************* reset start *********************/
-body {
+body{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
     color: #333;
 }
-a {
+a{
     text-decoration: none;
     color: #333;
 }
-ul {
+ul{
     margin: 0;
     padding: 0;
 }
@@ -23,17 +23,17 @@ button:focus{
 
 /********************* clearfix start *********************/
 .cr-clearfix:before,
-.cr-clearfix:after {
+.cr-clearfix:after{
     content: " ";
     display: table;
 }
-.cr-clearfix:after {
+.cr-clearfix:after{
     clear: both;
 }
 /********************* clearfix end *********************/
 
 
-.cr-container {
+.cr-container{
     margin: 0 0.2rem;
     max-width: 12.2rem;
 }
@@ -43,45 +43,45 @@ button:focus{
 .cr-header{
     height: 0.8rem;
 }
-.cr-header-title {
+.cr-header-title{
     float: left;
     margin: 0;
     height: 100%;
     line-height: 0.8rem;
     font-size: 0.36rem;
 }
-.cr-header-right {
+.cr-header-right{
     position: relative;
     float: right;
     height: 100%;
 }
-.cr-member-operation {
+.cr-member-operation{
     font-size: 14px;
     text-align: right;
     line-height: 2;
 }
-.cr-member-operation > a {
+.cr-member-operation > a{
     text-decoration: underline;
 }
-.cr-member-icon {
+.cr-member-icon{
     display: inline-block;
     margin: 0 0.05rem 0 0.2rem;
     width: 0.13rem;
     height: 0.1rem;
     background: url("../img/sign-out.png") no-repeat center/100% 100%;
 }
-.cr-header-nav {
+.cr-header-nav{
     display: table;
     position: absolute;
     list-style: none;
     right: 0;
     bottom: 0;
 }
-.cr-header-nav > li {
+.cr-header-nav > li{
     display: table-cell;
     vertical-align: bottom;
 }
-.cr-header-nav > li > a {
+.cr-header-nav > li > a{
     display: inline-block;
     padding: 0.09rem;
     margin-left: 0.04rem;
@@ -92,7 +92,7 @@ button:focus{
     font-weight: bold;
     white-space: nowrap;
 }
-.cr-header-nav > li > .active {
+.cr-header-nav > li > .active{
     padding-top: 0.14rem;
     padding-bottom: 0.14rem;
     margin-bottom: -3px;
@@ -103,7 +103,7 @@ button:focus{
 
 
 /********************* main start *********************/
-.cr-main {
+.cr-main{
     border: 3px solid #000;
 }
 
@@ -136,7 +136,7 @@ button:focus{
     text-align: center;
     background-color: #999;
 }
-.cr-main-nav-list > li > .active {
+.cr-main-nav-list > li > .active{
     background-color: #DDD;
 }
 /********* main nav end *********/
