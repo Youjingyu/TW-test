@@ -192,6 +192,9 @@ div, a, ul, li{
     font-size: 14px;
     line-height: 0.18rem;
 }
+.cr-main-item-row-2 > * {
+    vertical-align: middle;
+}
 .cr-main-item-row-2 > i:first-child{
     font-weight: bold;
 }
