@@ -60,10 +60,14 @@
                 </ul>
             </div>
             <div class="cr-main-content cr-clearfix">
-                <ul class="cr-main-list">
-                    <script type="template" id="agent_list">
+                <ul class="cr-main-list" id="agent_list">
+                    <script type="template" id="agent_list_templ">
                         <% for( var i = 0; i < data.length; i++) { %>
+                        <% if(data[i].status === 'idle'){ %>
                         <li class="cr-main-item cr-clearfix cr-main-item-idle">
+                        <% }else{ %>
+                        <li class="cr-main-item cr-clearfix cr-main-item-building">
+                        <% } %>
                             <i></i>
                             <div class="cr-main-item-content">
                                 <div class="cr-main-item-row-1">
@@ -121,6 +125,7 @@
 <script type="template" id="template">
 
 </script>
+<script src="./js/dom-wrap.js"></script>
 <script src="./js/template.js"></script>
 <script src="./js/data.js"></script>
 <script src="./js/common.js"></script>
