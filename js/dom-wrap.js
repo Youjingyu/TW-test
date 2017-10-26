@@ -4,15 +4,11 @@
         // only return one element for id selector
         if(/^#/.test(css_selector)){
             dom = document.querySelector(css_selector);
-            // add getEle and addEvent method to chain call
-            dom.getEle = Cr.getEle;
-            dom.on = addEvent;
+            wrap(dom);
         } else {
             dom = document.querySelectorAll(css_selector);
-            // add getEle and addEvent method for each elemrnt to chain call
             [].forEach.call(dom, function (ele) {
-                ele.getEle = Cr.getEle;
-                ele.on = addEvent;
+                wrap(ele);
             });
             // allow to add event for element set
             dom.on = function (type, target_sel, callback) {
@@ -23,6 +19,15 @@
         }
         return dom;
     }
+    Cr.wrap = wrap;
+
+    function wrap(dom) {
+        // add method to chain call
+        dom.getEle = Cr.getEle;
+        dom.on = addEvent;
+        dom.addClass = addClass;
+        dom.removeClass = removeClass;
+    }
     function addEvent(type, target_sel, callback) {
         var _this = this;
         if(typeof target_sel === 'function'){
@@ -32,7 +37,7 @@
         } else if(typeof target_sel === 'string'){
             // only execute addEventListener once
             // for listener added later, just use selector as key to cache callback function in this[eventCache]
-            var eventCache = type + '_obj';
+            var eventCache = 'data-' + type + '-obj';
             // if a listener has been added, there will be eventCache
             if(!this[eventCache]){
                 // save listener function
@@ -74,5 +79,12 @@
             // save repeat listener function
             this[eventCache][target_sel] = callback;
         }
+    }
+    function removeClass(clas_name) {
+        // not yet deal with the spaces left by replacing className
+        this.setAttribute('class', this.getAttribute('class').replace(new RegExp(clas_name), ''));
+    }
+    function addClass(clas_name) {
+        this.setAttribute('class', this.getAttribute('class') + ' ' + clas_name);
     }
 })(window.Cr || (window.Cr = {}));
