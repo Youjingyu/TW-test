@@ -15,6 +15,9 @@ ul {
 div, a, ul, li{
     box-sizing: border-box;
 }
+button:focus{
+    outline: none;
+}
 /********************* reset end *********************/
 
 
@@ -196,6 +199,9 @@ div, a, ul, li{
 .cr-main-item-row-2 span{
     vertical-align: middle;
 }
+.cr-main-item-add{
+    cursor: pointer;
+}
 .cr-main-item-add > i{
     font-weight: bold;
 }
@@ -241,13 +247,24 @@ div, a, ul, li{
     border-radius: 20px;
     background-color: #E0EDD4;
 }
-.cr-main-add-dialog > input {
+.cr-main-add-dialog > input{
     margin: 0.1rem 0;
     width: 100%;
+    height: 0.22rem;
     border: 1px solid #747474;
+}
+.cr-main-add-dialog > div > button{
+    padding: 0 0.08rem;
+    border: 2px solid #000;
+    border-radius: 15px;
+    line-height: 1.5;
+}
+.cr-main-add-dialog > div > button:first-child{
+    margin-right: 0.08rem;
 }
 .cr-main-triangle{
     position: absolute;
+    z-index: -1;
     top: -20px;
     left: 0.44rem;
     width: 35px;
