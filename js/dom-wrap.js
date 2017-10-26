@@ -26,42 +26,60 @@
     }
     function addEvent(type, target_sel, callback) {
         var _this = this;
-        this.addEventListener(type, function (event) {
-            if(typeof target_sel === 'function'){
+        if(typeof target_sel === 'function'){
+            this.addEventListener(type, function (event) {
                 target_sel.call(_this, event);
-            } else if(typeof target_sel === 'string'){
-                var target = event.target;
-                var test = testFunc(target_sel);
-                while(target){
-                    // if target match the selector
-                    if(test(target)){
-                        callback && callback.call(target, event);
+            })
+        } else if(typeof target_sel === 'string'){
+            // only execute addEventListener once
+            // for listener added later, just use selector as key to cache callback function in this[eventCache]
+            var eventCache = type + '_obj';
+            // if a listener has been added, there will be eventCache
+            if(!this[eventCache]){
+                // save listener function
+                this[eventCache] = {};
+                this[eventCache][target_sel] = callback;
+                this.addEventListener(type, function (event) {
+                    debugger
+                    var target = event.target;
+                    // get test function according to selector type
+                    var test = testFunc(target_sel);
+                    while(target){
+                        for(var sel in _this[eventCache]){
+                            // if target match the selector
+                            if(test(target)){
+                                // execute cached callback function
+                                _this[eventCache][sel] && _this[eventCache][sel].call(target, event);
+                            }
+                        }
+                        target = target.parentNode;
+                        // traverse until the agent element
+                        if(target.isEqualNode(_this)){
+                            break;
+                        }
                     }
-                    target = target.parentNode;
-                    // traverse until the agent element
-                    if(target.isEqualNode(this)){
-                        break;
+                    // the selector of event agent, only surpport tagName, id, and class selector
+                    function testFunc(selctor, target) {
+                        var sel;
+                        if(/^#/.test(selctor)){
+                            // id selector
+                            sel = selctor.replace('#', '')
+                            return function (target) { return target.getAttribute('id') === sel }
+                        } else if(/^\./.test(selctor)){
+                            // class selector
+                            sel = selctor.replace('.', '');
+                            var reg = new RegExp(sel)
+                            return function (target) { return reg.test(target.className) }
+                        } else {
+                            // tagname selector
+                            return function (target) { return target.tagName.toLowerCase() === selctor }
+                        }
                     }
-                }
+                });
             }
-            // the selector of event agent, only surpport tagName, id, and class selector
-            function testFunc(selctor) {
-                var sel;
-                if(/^#/.test(selctor)){
-                    // id selector
-                    sel = selctor.replace('#', '')
-                    return function (target) { return target.getAttribute('id') === sel }
-                } else if(/^\./.test(selctor)){
-                    // class selector
-                    sel = selctor.replace('.', '');
-                    var reg = new RegExp(sel)
-                    return function (target) { return reg.test(target.className) }
-                } else {
-                    // tagname selector
-                    return function (target) { return target.tagName.toLowerCase() === selctor }
-                }
-            }
-        });
 
+            // save repeat listener function
+            this[eventCache][target_sel] = callback;
+        }
     }
 })(window.Cr || (window.Cr = {}));
