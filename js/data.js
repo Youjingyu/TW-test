@@ -46,14 +46,17 @@
             history: ['bjstdmngbgr08/Acceptance_test']
         },
     };
-    Cr.getData = function () {
-        return data;
-    };
-    Cr.addRes = function (type, resource) {
-        data[type].resources.push(resource);
+    var data_operation = {
+        getData: function () {
+            return data;
+        },
+        addRes: function (type, resource) {
+            data[type].resources.push(resource);
+        },
+        deleteRes: function (type, list_index, res_index) {
+            data[type].agents[list_index].resources.splice(res_index, 1);
+        }
     }
-    Cr.deleteRes = function (type, list_index, res_index) {
-        data[type].agents[list_index].resources.splice(res_index, 1);
-        console.log(data);
-    }
+    Cr.data = data_operation;
+
 })(window.Cr || (window.Cr = {}));

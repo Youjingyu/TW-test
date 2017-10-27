@@ -150,7 +150,19 @@
 <script src="./js/common.js"></script>
 <script>
     (function () {
-        var $header_nav = Cr.getEle('#header_nav');
+        // config js hook
+        var js_hook = {
+            header_nav: '#header_nav',
+            main_nav: '#main_nav',
+            agent_list: '#agent_list',
+            add_res: '.js-add-res',
+            delete_res: '.cr-main-item-delete',
+            dialog: '.cr-main-add-dialog',
+            dialog_close: '.js-dialog-close',
+            dialog_add: '.js-dialog-add'
+        }
+
+        var $header_nav = Cr.getEle(js_hook.header_nav);
         $header_nav.on('click', 'a', function () {
             var $this = Cr.wrap(this);
             if(!$this.hasClass('active')){
@@ -160,8 +172,7 @@
             }
         });
 
-        var $main_nav = Cr.getEle('#main_nav');
-        Cr.refreshList($main_nav.getEle('.active')[0].getAttribute('data-agent-type'));
+        var $main_nav = Cr.getEle(js_hook.main_nav);
         $main_nav.on('click', 'a', function () {
             var $this = Cr.wrap(this);
             if(!$this.hasClass('active')){
@@ -169,6 +180,29 @@
                 $this.addClass('active');
                 Cr.refreshList(this.getAttribute('data-agent-type'));
             }
+        });
+
+        var $agent_list = Cr.getEle(js_hook.agent_list);
+        // delete resources
+        $agent_list.on('click', js_hook.delete_res, function () {
+            Cr.deleteRes(this.parentNode);
+        });
+        // show dialog
+        $agent_list.on('click', js_hook.add_res, function () {
+            this.parentNode.nextSibling.nextSibling.setAttribute('style', 'display: block');
+        });
+
+        Cr.refreshList($main_nav.getEle('.active')[0].getAttribute('data-agent-type'), function () {
+            var dialogs = Cr.getEle(js_hook.dialog);
+            // hide dialog
+            dialogs.on('click', js_hook.dialog_close, function () {
+                this.parentNode.parentNode.setAttribute('style', 'display: none');
+            });
+            // dialog add
+            dialogs.on('click', js_hook.dialog_add, function () {
+                var res = this.getEle('input')[0].value.split(/[ ]*,[ ]*/);
+                this.parentNode.parentNode.setAttribute('style', 'display: none');
+            });
         });
     })()
 </script>
