@@ -32,6 +32,7 @@
         dom.addClass = addClass;
         dom.removeClass = removeClass;
         dom.hasClass = hasClass;
+        dom.indexOfParent = indexOfParent;
         return dom;
     }
     function addEvent(type, target_sel, callback) {
@@ -99,5 +100,18 @@
     }
     function hasClass(clas_name) {
         return new RegExp(clas_name).test(this.getAttribute('class'));
+    }
+    function indexOfParent() {
+        var children = this.parentNode.childNodes;
+        // filter text node
+        var filter_children = [].filter.call(children, function (ele) {
+            return ele.nodeType === 1;
+        })
+        for(var i = 0; i < filter_children.length; i++){
+            if(this.isEqualNode(filter_children[i])){
+                return i
+            }
+        };
+        return -1;
     }
 })(window.Cr || (window.Cr = {}));
