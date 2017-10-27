@@ -119,15 +119,20 @@
                     <div class="cr-main-summary">
                         <h4>Summary</h4>
                         <ul>
-                            <li><span class="cr-main-summary-status">building</span><span>2</span></li>
-                            <li><span class="cr-main-summary-status">building</span><span>2</span></li>
+                            <script type="template" id="summary_templ">
+                                <li><span class="cr-main-summary-status">building</span><span><%=data.building%></span></li>
+                                <li><span class="cr-main-summary-status">idle</span><span><%=data.idle%></span></li>
+                            </script>
                         </ul>
                     </div>
                     <div class="cr-main-summary">
                         <h4>History</h4>
                         <ul>
-                            <li title="bjstdmngbgr02/Acceptance_test">bjstdmngbgr02/Acceptance_test</li>
-                            <li title="bjstdmngbgr02/Acceptance_test">bjstdmngbgr02/Acceptance_test</li>
+                            <script type="template" id="history_list_templ">
+                                <% for( var i = 0; i < data.length; i++) { %>
+                                <li title="bjstdmngbgr02/Acceptance_test"><%=data[i]%></li>
+                                <% } %>
+                            </script>
                         </ul>
                     </div>
                 </div>
