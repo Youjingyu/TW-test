@@ -42,7 +42,7 @@
                     <span>Signed in as </span><a href="#">Member</a>
                     <i class="cr-member-icon"></i><a href="#">Sign out</a>
                 </div>
-                <ul class="cr-header-nav">
+                <ul class="cr-header-nav" id="header_nav">
                     <li><a href="#">DASHBOARD</a></li>
                     <li><a href="#">MY CRUISE</a></li>
                     <li><a href="#" class="active">AGENTS</a></li>
@@ -145,6 +145,16 @@
 <script src="./js/common.js"></script>
 <script>
     (function () {
+        var $header_nav = Cr.getEle('#header_nav');
+        $header_nav.on('click', 'a', function () {
+            var $this = Cr.wrap(this);
+            if(!$this.hasClass('active')){
+                $header_nav.getEle('.active')[0].removeClass('active');
+                $this.addClass('active');
+                // TODO: page switch
+            }
+        });
+
         var $main_nav = Cr.getEle('#main_nav');
         Cr.refreshList($main_nav.getEle('.active')[0].getAttribute('data-agent-type'));
         $main_nav.on('click', 'a', function () {
