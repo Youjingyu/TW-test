@@ -32,17 +32,27 @@
         }
     };
 
-    Cr.addRes = function ($res_con, res_data) {
-        var span = doc.createElement('span');
+    Cr.addRes = function ($list_item, resources) {
+        var $res_con = Cr.wrap($list_item).getEle(Cr.js_hook.res_container)[0];
+        resources.forEach(function (resource) {
+            var $span = doc.createElement('span');
+            $span.textContent = resource;
+            var $i = doc.createElement('i');
+            $i.setAttribute('class', 'cr-main-item-icon cr-main-item-delete');
+            $span.appendChild($i);
+            $res_con.appendChild($span);
+        });
+        // synchronize views and data
+        console.log($list_item, Cr.wrap($list_item).indexOfParent());
+        Cr.data.addRes(Cr.agent_type, Cr.wrap($list_item).indexOfParent(), resources);
     }
 
     Cr.deleteRes = function (delete_dom) {
         var delete_list_index = Cr.wrap(delete_dom.parentNode.parentNode.parentNode.parentNode).indexOfParent();
         var delete_res_index = Cr.wrap(delete_dom).indexOfParent();
         if(delete_list_index > -1 && delete_res_index > -1){
-            var type = Cr.getEle('#main_nav').getEle('.active')[0].getAttribute('data-agent-type');
             // synchronize views and data
-            Cr.data.deleteRes(type, delete_list_index, delete_res_index);
+            Cr.data.deleteRes(Cr.agent_type, delete_list_index, delete_res_index);
             delete_dom.parentNode.removeChild(delete_dom);
         }
     }

@@ -50,8 +50,8 @@
         getData: function () {
             return data;
         },
-        addRes: function (type, resource) {
-            data[type].resources.push(resource);
+        addRes: function (type, list_index, resources) {
+            data[type].agents[list_index].resources = data[type].agents[list_index].resources.concat(resources);
         },
         deleteRes: function (type, list_index, res_index) {
             data[type].agents[list_index].resources.splice(res_index, 1);

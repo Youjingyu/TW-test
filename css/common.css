@@ -219,6 +219,7 @@ button:focus{
 }
 .cr-main-item-icon{
     display: inline-block;
+    margin-left: 3px;
     width: 0.18rem;
     height: 0.18rem;
     background-repeat: no-repeat;

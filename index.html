@@ -89,8 +89,7 @@
                                     <div class="cr-main-item-reso">
                                         <% for(var j = 0; j < data[i].resources.length; j++) { %>
                                         <span>
-                                        <%=data[i].resources[j]%>
-                                            <i class="cr-main-item-icon cr-main-item-delete"></i>
+                                        <%=data[i].resources[j]%><i class="cr-main-item-icon cr-main-item-delete"></i>
                                         </span>
                                         <% } %>
                                     </div>
@@ -101,15 +100,15 @@
                                     </span>
                                     <% } %>
                                 </div>
-                                <div class="cr-main-add-dialog">
-                                    <span>(separate multiple resources name with commas)</span>
-                                    <input>
-                                    <div>
-                                        <button class="js-dialog-add">Add resources</button>
-                                        <button class="js-dialog-close">Close</button>
-                                    </div>
-                                    <div class="cr-main-triangle"></div>
+                            </div>
+                            <div class="cr-main-add-dialog">
+                                <span>(separate multiple resources name with commas)</span>
+                                <input>
+                                <div>
+                                    <button class="js-dialog-add">Add resources</button>
+                                    <button class="js-dialog-close">Close</button>
                                 </div>
+                                <div class="cr-main-triangle"></div>
                             </div>
                         </li>
                         <% } %>
@@ -159,8 +158,10 @@
             delete_res: '.cr-main-item-delete',
             dialog: '.cr-main-add-dialog',
             dialog_close: '.js-dialog-close',
-            dialog_add: '.js-dialog-add'
+            dialog_add: '.js-dialog-add',
+            res_container: '.cr-main-item-reso'
         }
+        Cr.js_hook = js_hook;
 
         var $header_nav = Cr.getEle(js_hook.header_nav);
         $header_nav.on('click', 'a', function () {
@@ -173,12 +174,14 @@
         });
 
         var $main_nav = Cr.getEle(js_hook.main_nav);
+        Cr.agent_type = $main_nav.getEle('.active')[0].getAttribute('data-agent-type');
         $main_nav.on('click', 'a', function () {
             var $this = Cr.wrap(this);
             if(!$this.hasClass('active')){
                 $main_nav.getEle('.active')[0].removeClass('active');
                 $this.addClass('active');
-                Cr.refreshList(this.getAttribute('data-agent-type'));
+                Cr.agent_type = this.getAttribute('data-agent-type');
+                Cr.refreshList(Cr.agent_type, addAgentListEvent);
             }
         });
 
@@ -189,21 +192,27 @@
         });
         // show dialog
         $agent_list.on('click', js_hook.add_res, function () {
-            this.parentNode.nextSibling.nextSibling.setAttribute('style', 'display: block');
+            this.parentNode.parentNode.nextSibling.nextSibling.setAttribute('style', 'display: block');
         });
 
-        Cr.refreshList($main_nav.getEle('.active')[0].getAttribute('data-agent-type'), function () {
-            var dialogs = Cr.getEle(js_hook.dialog);
+        Cr.refreshList(Cr.agent_type, addAgentListEvent);
+
+        function addAgentListEvent() {
+            var $dialogs = Cr.getEle(js_hook.dialog);
             // hide dialog
-            dialogs.on('click', js_hook.dialog_close, function () {
+            $dialogs.on('click', js_hook.dialog_close, function () {
                 this.parentNode.parentNode.setAttribute('style', 'display: none');
             });
             // dialog add
-            dialogs.on('click', js_hook.dialog_add, function () {
-                var res = this.getEle('input')[0].value.split(/[ ]*,[ ]*/);
-                this.parentNode.parentNode.setAttribute('style', 'display: none');
+            $dialogs.on('click', js_hook.dialog_add, function () {
+                var $dialog = Cr.wrap(this.parentNode.parentNode);
+                var $input = $dialog.getEle('input')[0];
+                var resources = $input.value.split(/[ ]*,[ ]*/);
+                Cr.addRes($dialog.parentNode, resources);
+                $input.value = ''
+                $dialog.setAttribute('style', 'display: none');
             });
-        });
+        }
     })()
 </script>
 </html>
