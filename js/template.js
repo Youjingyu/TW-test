@@ -1,11 +1,11 @@
 // 代码整个放在一个立即执行函数里面
-(function(Cr){
+(function(Cr, doc){
     // 用来缓存，有时候一个模板要用多次，这时候，我们直接用缓存就会很方便
     var cache = {};
 
     // tmpl绑定在this上，这里的this值得是window
     Cr.render = function render(str, data){
-        var $ele = document.getElementById(str);
+        var $ele = doc.getElementById(str);
         // 只有模板才有非字母数字字符，用来判断传入的是模板id还是模板字符串，
         // 如果是id的话，判断是否有缓存，没有缓存的话调用tmpl；
         // 如果是模板的话，就调用new Function()解析编译
@@ -48,4 +48,4 @@
         // console.log(fn( data ));
         return data ? $ele.outerHTML = fn(data) : fn;
     };
-})(window.Cr || (window.Cr = {}));
+})(window.Cr || (window.Cr = {}), document);
