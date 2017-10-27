@@ -12,7 +12,7 @@ ul{
     margin: 0;
     padding: 0;
 }
-div, a, ul, li{
+header, main, div, a, ul, li{
     box-sizing: border-box;
 }
 button:focus{
