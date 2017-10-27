@@ -147,7 +147,6 @@
     (function () {
         var $main_nav = Cr.getEle('#main_nav');
         Cr.refreshList($main_nav.getEle('.active')[0].getAttribute('data-agent-type'));
-        console.log($main_nav.getEle('.active')[0]);
         $main_nav.on('click', 'a', function () {
             Cr.wrap(this).addClass('active');
             $main_nav.getEle('.active')[0].removeClass('active');

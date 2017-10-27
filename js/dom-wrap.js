@@ -1,12 +1,13 @@
 (function(Cr){
-    Cr.getEle = function (css_selector) {
+    Cr.getEle = function (css_selector, parent) {
+        parent = parent || document;
         var dom;
         // only return one element for id selector
         if(/^#/.test(css_selector)){
-            dom = document.querySelector(css_selector);
+            dom = parent.querySelector(css_selector);
             wrap(dom);
         } else {
-            dom = document.querySelectorAll(css_selector);
+            dom = parent.querySelectorAll(css_selector);
             [].forEach.call(dom, function (ele) {
                 wrap(ele);
             });
@@ -23,10 +24,14 @@
 
     function wrap(dom) {
         // add method to chain call
-        dom.getEle = Cr.getEle;
+        dom.getEle = function (css_selector) {
+            // use current element as parent to query children
+            return Cr.getEle(css_selector, this);
+        }
         dom.on = addEvent;
         dom.addClass = addClass;
         dom.removeClass = removeClass;
+        return dom;
     }
     function addEvent(type, target_sel, callback) {
         var _this = this;
