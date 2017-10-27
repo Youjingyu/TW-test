@@ -52,7 +52,8 @@
     Cr.addRes = function (type, resource) {
         data[type].resources.push(resource);
     }
-    Cr.deleteRes = function (type, index) {
-        data[type].resources.splice(index, 1);
+    Cr.deleteRes = function (type, list_index, res_index) {
+        data[type].agents[list_index].resources.splice(res_index, 1);
+        console.log(data);
     }
 })(window.Cr || (window.Cr = {}));

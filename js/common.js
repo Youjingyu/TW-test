@@ -16,8 +16,13 @@
     // delete resources
     $agent_list.on('click', js_hook.delete_res, function () {
         var parrent = this.parentNode;
-        Cr.deleteRes('');
-        parrent.parentNode.removeChild(parrent);
+        var delete_list_index = Cr.wrap(parrent.parentNode.parentNode.parentNode.parentNode).indexOfParent();
+        var delete_res_index = Cr.wrap(parrent).indexOfParent();
+        if(delete_list_index > -1 && delete_res_index > -1){
+            var type = Cr.getEle('#main_nav').getEle('.active')[0].getAttribute('data-agent-type');
+            Cr.deleteRes(type, delete_list_index, delete_res_index);
+            parrent.parentNode.removeChild(parrent);
+        }
     });
     // show dialog
     $agent_list.on('click', js_hook.add_res, function () {
