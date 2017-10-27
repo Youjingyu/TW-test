@@ -34,7 +34,8 @@ button:focus{
 
 
 .cr-container{
-    margin: 0 0.2rem;
+    margin: 0 auto;
+    padding: 0 0.2rem;
     max-width: 12.2rem;
 }
 
@@ -242,34 +243,37 @@ button:focus{
     top: 0.86rem;
     left: 0.46rem;
     z-index: 999;
-    padding: 0.1rem;
     width: 7.07rem;
     border: 3px solid #553D00;
     border-radius: 20px;
+}
+.cr-main-add-dialog-con{
+    padding: 0.1rem;
+    border-radius: 17px;
     background-color: #E0EDD4;
 }
-.cr-main-add-dialog > input{
+.cr-main-add-dialog-con > input{
     margin: 0.1rem 0;
     width: 100%;
     height: 0.22rem;
     border: 1px solid #747474;
 }
-.cr-main-add-dialog > div > button{
+.cr-main-add-dialog-con > div > button{
     padding: 0 0.08rem;
     border: 2px solid #000;
     border-radius: 15px;
     line-height: 1.5;
 }
-.cr-main-add-dialog > div > button:first-child{
+.cr-main-add-dialog-con > div > button:first-child{
     margin-right: 0.08rem;
 }
 .cr-main-triangle{
     position: absolute;
     z-index: -1;
-    top: -20px;
+    top: -0.15rem;
     left: 0.44rem;
-    width: 35px;
-    height: 35px;
+    width: 0.3rem;
+    height: 0.3rem;
     border-top: 3px solid #553D00;
     border-left: 3px solid #553D00;
     background-color: #E0EDD4;
