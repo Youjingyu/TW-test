@@ -3,49 +3,50 @@
     // 用来缓存，有时候一个模板要用多次，这时候，我们直接用缓存就会很方便
     var cache = {};
 
+    var templ_parent_node_cache = {};
     // tmpl绑定在this上，这里的this值得是window
     Cr.render = function render(str, data){
         var $ele = doc.getElementById(str);
         // 只有模板才有非字母数字字符，用来判断传入的是模板id还是模板字符串，
         // 如果是id的话，判断是否有缓存，没有缓存的话调用tmpl；
         // 如果是模板的话，就调用new Function()解析编译
-        var fn = !/\W/.test(str) ?
-            cache[str] = cache[str] ||
-                render($ele.innerHTML) :
+        var fn = cache[str] = cache[str] || new Function("obj",
+            // 注意这里整个是字符串，通过 + 号拼接
+            "var p=[],print=function(){p.push.apply(p,arguments);};" +
+            "with(obj){var data = obj;p.push('" +
 
-            new Function("obj",
-                // 注意这里整个是字符串，通过 + 号拼接
-                "var p=[],print=function(){p.push.apply(p,arguments);};" +
-                "with(obj){var data = obj;p.push('" +
+            $ele.innerHTML
+            // 去除换行制表符\t\n\r
+                .replace(/[\r\t\n]/g, " ")
 
-                str
-                // 去除换行制表符\t\n\r
-                    .replace(/[\r\t\n]/g, " ")
+                // 将左分隔符变成 \t
+                .split("<%").join("\t")
 
-                    // 将左分隔符变成 \t
-                    .split("<%").join("\t")
+            // 去掉模板中单引号的干扰
+                .replace(/((^|%>)[^\t]*)'/g, "$1\r")
 
-                // 去掉模板中单引号的干扰
-                    .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+                // 为 html 中的变量变成 ",xxx," 的形式, 如：\t=users[i].url%> 变成  '，users[i].url,'
+                // 注意这里只有一个单引号，还不配对
+                .replace(/\t=(.*?)%>/g, "',$1,'")
 
-                    // 为 html 中的变量变成 ",xxx," 的形式, 如：\t=users[i].url%> 变成  '，users[i].url,'
-                    // 注意这里只有一个单引号，还不配对
-                    .replace(/\t=(.*?)%>/g, "',$1,'")
+                // 这时候，只有JavaScript 语句前面才有 "\t",  将  \t  变成   ');
+                // 这样就可把 html 标签添加到数组p中，而javascript 语句 不需要 push 到里面。
+                .split("\t").join("');")
 
-                    // 这时候，只有JavaScript 语句前面才有 "\t",  将  \t  变成   ');
-                    // 这样就可把 html 标签添加到数组p中，而javascript 语句 不需要 push 到里面。
-                    .split("\t").join("');")
+            // 这时候，只有JavaScript 语句后面才有 "%>", 将 %> 变成  p.push('
+            // 上一步我们再 html 标签后加了 ');， 所以要把 p.push(' 语句放在 html 标签放在前面，这样就可以变成 JavaScript 语句
+                .split("%>").join("p.push('")
 
-                // 这时候，只有JavaScript 语句后面才有 "%>", 将 %> 变成  p.push('
-                // 上一步我们再 html 标签后加了 ');， 所以要把 p.push(' 语句放在 html 标签放在前面，这样就可以变成 JavaScript 语句
-                    .split("%>").join("p.push('")
+            // 将上面可能出现的干扰的单引号进行转义
+                .split("\r").join("\\'")
+            // 将数组 p 变成字符串。
+            + "');}return p.join('');");
 
-                // 将上面可能出现的干扰的单引号进行转义
-                    .split("\r").join("\\'")
-                // 将数组 p 变成字符串。
-                + "');}return p.join('');");
-
-        // console.log(fn( data ));
-        return data ? $ele.outerHTML = fn(data) : fn;
+        if($ele){
+            templ_parent_node_cache[str] = $ele.parentNode;
+            $ele.outerHTML = fn(data);
+        } else {
+            templ_parent_node_cache[str].innerHTML = fn(data);
+        }
     };
 })(window.Cr || (window.Cr = {}), document);
