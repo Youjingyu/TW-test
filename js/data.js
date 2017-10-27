@@ -51,12 +51,32 @@
             return data;
         },
         addRes: function (type, list_index, resources) {
-            data[type].agents[list_index].resources = data[type].agents[list_index].resources.concat(resources);
+            var po = getUpdateDataPosition(type, list_index);
+            data[po.type].agents[po.index].resources = data[po.type].agents[po.index].resources.concat(resources);
         },
         deleteRes: function (type, list_index, res_index) {
-            data[type].agents[list_index].resources.splice(res_index, 1);
+            var po = getUpdateDataPosition(type, list_index);
+            data[po.type].agents[po.index].resources.splice(res_index, 1);
         }
     }
     Cr.data = data_operation;
 
+    function getUpdateDataPosition(type, list_index) {
+        var data_to_update = {
+            type: type,
+            index: list_index
+        }
+        if(type === 'all'){
+            var physical_len = data.physical.agents.length;
+            if(list_index > physical_len - 1){
+                data_to_update = {
+                    type: 'virtual',
+                    index: list_index - physical_len
+                };
+            } else {
+                data_to_update.type = 'physical';
+            }
+        }
+        return data_to_update;
+    }
 })(window.Cr || (window.Cr = {}));
