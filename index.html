@@ -190,26 +190,37 @@
         });
         // show dialog
         $agent_list.on('click', js_hook.add_res, function () {
-            this.parentNode.parentNode.nextSibling.nextSibling.setAttribute('style', 'display: block');
+            showDialog(this.parentNode.parentNode.nextSibling.nextSibling);
         });
 
         Cr.refreshList(Cr.agent_type, addAgentListEvent);
-
+        var $dialogs;
         function addAgentListEvent() {
-            var $dialogs = Cr.getEle(js_hook.dialog);
+            $dialogs = Cr.getEle(js_hook.dialog);
             // hide dialog
             $dialogs.on('click', js_hook.dialog_close, function () {
-                this.parentNode.parentNode.setAttribute('style', 'display: none');
+                hideDialog(this.parentNode.parentNode.parentNode);
             });
             // dialog add
             $dialogs.on('click', js_hook.dialog_add, function () {
-                var $dialog = Cr.wrap(this.parentNode.parentNode);
+                var $dialog = Cr.wrap(this.parentNode.parentNode.parentNode);
                 var $input = $dialog.getEle('input')[0];
                 var resources = $input.value.split(/[ ]*,[ ]*/);
                 Cr.addRes($dialog.parentNode, resources);
-                $input.value = ''
-                $dialog.setAttribute('style', 'display: none');
+                $input.value = '';
+                hideDialog($dialog);
             });
+        }
+        function showDialog(cur_dialog) {
+            // hide all dialog
+            [].forEach.call($dialogs, function (dialog) {
+                dialog.setAttribute('style', 'display: none');
+            });
+            // show current dialog
+            cur_dialog.setAttribute('style', 'display: block');
+        }
+        function hideDialog(cur_dialog) {
+            cur_dialog.setAttribute('style', 'display: none');
         }
     })()
 </script>

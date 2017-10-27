@@ -43,7 +43,6 @@
             $res_con.appendChild($span);
         });
         // synchronize views and data
-        console.log($list_item, Cr.wrap($list_item).indexOfParent());
         Cr.data.addRes(Cr.agent_type, Cr.wrap($list_item).indexOfParent(), resources);
     }
 
