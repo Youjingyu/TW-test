@@ -1,6 +1,6 @@
-(function(Cr){
+(function(Cr, doc){
     Cr.getEle = function (css_selector, parent) {
-        parent = parent || document;
+        parent = parent || doc;
         var dom;
         // only return one element for id selector
         if(/^#/.test(css_selector)){
@@ -114,4 +114,4 @@
         };
         return -1;
     }
-})(window.Cr || (window.Cr = {}));
+})(window.Cr || (window.Cr = {}), document);
