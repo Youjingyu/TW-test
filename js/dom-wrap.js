@@ -31,6 +31,7 @@
         dom.on = addEvent;
         dom.addClass = addClass;
         dom.removeClass = removeClass;
+        dom.hasClass = hasClass;
         return dom;
     }
     function addEvent(type, target_sel, callback) {
@@ -75,7 +76,7 @@
                             return new RegExp(selctor.replace('.', '')).test(target.className);
                         } else {
                             // tagname selector
-                            return target.tagName.toLowerCase() === selctor;
+                            return target.tagName && target.tagName.toLowerCase() === selctor;
                         }
                     }
                 });
@@ -86,10 +87,17 @@
         }
     }
     function removeClass(clas_name) {
-        // not yet deal with the spaces left by replacing className
-        this.setAttribute('class', this.getAttribute('class').replace(new RegExp(clas_name), ''));
+        var cur_class = this.getAttribute('class');
+        if(cur_class){
+            // not yet deal with the spaces left by replacing className
+            this.setAttribute('class', cur_class.replace(new RegExp(clas_name), ''));
+        }
     }
     function addClass(clas_name) {
-        this.setAttribute('class', this.getAttribute('class') + ' ' + clas_name);
+        var cur_class = this.getAttribute('class');
+        this.setAttribute('class', cur_class ? cur_class + ' ' + clas_name : clas_name);
+    }
+    function hasClass(clas_name) {
+        return new RegExp(clas_name).test(this.getAttribute('class'));
     }
 })(window.Cr || (window.Cr = {}));

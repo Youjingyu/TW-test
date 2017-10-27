@@ -148,9 +148,12 @@
         var $main_nav = Cr.getEle('#main_nav');
         Cr.refreshList($main_nav.getEle('.active')[0].getAttribute('data-agent-type'));
         $main_nav.on('click', 'a', function () {
-            Cr.wrap(this).addClass('active');
-            $main_nav.getEle('.active')[0].removeClass('active');
-            Cr.refreshList(this.getAttribute('data-agent-type'));
+            var $this = Cr.wrap(this);
+            if(!$this.hasClass('active')){
+                $main_nav.getEle('.active')[0].removeClass('active');
+                $this.addClass('active');
+                Cr.refreshList(this.getAttribute('data-agent-type'));
+            }
         });
     })()
 </script>
