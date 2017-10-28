@@ -218,13 +218,13 @@
         function showDialog(cur_dialog) {
             // hide all dialog
             [].forEach.call($dialogs, function (dialog) {
-                dialog.setAttribute('style', 'display: none');
+                dialog.hide();
             });
             // show current dialog
-            cur_dialog.setAttribute('style', 'display: block');
+            cur_dialog.show();
         }
         function hideDialog(cur_dialog) {
-            cur_dialog.setAttribute('style', 'display: none');
+            cur_dialog.hide();
         }
     })()
 </script>

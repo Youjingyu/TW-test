@@ -34,6 +34,8 @@
         dom.hasClass = hasClass;
         dom.indexOfParent = indexOfParent;
         dom.parent = parent;
+        dom.hide = hide;
+        dom.show = show;
         return dom;
     }
     function addEvent(type, target_sel, callback) {
@@ -115,6 +117,13 @@
         } else {
             return wrap(parent);
         }
+    }
+    function hide() {
+        this.setAttribute('style', 'display: none');
+    }
+    function show() {
+        // only support block element
+        this.setAttribute('style', 'display: block');
     }
 
     // only surpport tagName, id, and class selector
