@@ -214,7 +214,8 @@
                 if($input.value === ''){
                     $dialog.getEle(js_hook.dialog_warn)[0].show();
                 } else {
-                    var resources = $input.value.split(/[ ]*,[ ]*/);
+                    var val = $input.value.replace(/(^\s*)|(\s*$)/g,'');
+                    var resources = val.split(/[ ]*,[ ]*/);
                     Cr.addRes($dialog.parentNode, resources);
                     $input.value = '';
                     hideDialog($dialog);
