@@ -38,7 +38,7 @@
             var $span = doc.createElement('span');
             $span.textContent = resource;
             var $i = doc.createElement('i');
-            $i.setAttribute('class', 'cr-main-item-icon cr-main-item-delete');
+            $i.setAttribute('class', 'cr-main-item-icon cr-main-item-delete js-delete-res');
             $span.appendChild($i);
             $res_con.appendChild($span);
         });
