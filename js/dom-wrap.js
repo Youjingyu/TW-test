@@ -1,7 +1,7 @@
 (function(Cr, doc){
     Cr.getEle = function (css_selector, parent) {
         parent = parent || doc;
-        var dom;
+        var dom = null;
         // only return one element for id selector
         if(/^#/.test(css_selector)){
             dom = parent.querySelector(css_selector);
