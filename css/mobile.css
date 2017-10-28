@@ -10,6 +10,10 @@
         font-size: 0.6rem;
         line-height: 1.6rem;
     }
+    .cr-header-nav > li > a{
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
     .cr-header-nav > li > .active{
         padding-top: 0.2rem;
         padding-bottom: 0.2rem;
@@ -21,6 +25,7 @@
     .cr-main-nav-list > li > a{
         padding: 0.12rem 0.25rem;
         font-size: 0.3rem;
+        border-radius: 15px;
     }
 
     .cr-main-content{
@@ -47,8 +52,6 @@
     }
     .cr-main-dialog{
         width: 90%;
-    }
-    .cr-main-dialog{
         top: 105%;
     }
     .cr-main-dialog-con{
