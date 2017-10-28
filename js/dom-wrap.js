@@ -33,6 +33,7 @@
         dom.removeClass = removeClass;
         dom.hasClass = hasClass;
         dom.indexOfParent = indexOfParent;
+        dom.parent = parent;
         return dom;
     }
     function addEvent(type, target_sel, callback) {
@@ -56,7 +57,7 @@
                     while(target){
                         for(var sel in _this[eventCache]){
                             // if target match the selector
-                            if(testFunc(sel, target)){
+                            if(testSelector(sel, target)){
                                 // execute cached callback function
                                 _this[eventCache][sel] && _this[eventCache][sel].call(target, event);
                             }
@@ -65,19 +66,6 @@
                         // traverse until the agent element
                         if(target && target.isEqualNode(_this)){
                             break;
-                        }
-                    }
-                    // the selector of event agent, only surpport tagName, id, and class selector
-                    function testFunc(selctor, target) {
-                        if(/^#/.test(selctor)){
-                            // id selector
-                            return '#' + target.getAttribute('id') === selctor;
-                        } else if(/^\./.test(selctor)){
-                            // class selector
-                            return new RegExp(selctor.replace('.', '')).test(target.className);
-                        } else {
-                            // tagname selector
-                            return target.tagName && target.tagName.toLowerCase() === selctor;
                         }
                     }
                 });
@@ -113,5 +101,33 @@
             }
         };
         return -1;
+    }
+    function parent(selector) {
+        var parent = this.parentNode;
+        if(selector){
+            while (parent){
+                if(testSelector(selector, parent)){
+                    return wrap(parent);
+                }
+                parent = parent.parentNode;
+            };
+            return null;
+        } else {
+            return wrap(parent);
+        }
+    }
+
+    // only surpport tagName, id, and class selector
+    function testSelector(selctor, target) {
+        if(/^#/.test(selctor)){
+            // id selector
+            return '#' + target.getAttribute('id') === selctor;
+        } else if(/^\./.test(selctor)){
+            // class selector
+            return new RegExp(selctor.replace('.', '')).test(target.className);
+        } else {
+            // tagname selector
+            return target.tagName && target.tagName.toLowerCase() === selctor;
+        }
     }
 })(window.Cr || (window.Cr = {}), document);
