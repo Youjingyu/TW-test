@@ -237,7 +237,7 @@ button:focus{
     background-image: url("../img/delete-2.png");
 }
 
-.cr-main-add-dialog{
+.cr-main-dialog{
     display: none;
     position: absolute;
     top: 0.86rem;
@@ -247,24 +247,28 @@ button:focus{
     border: 3px solid #553D00;
     border-radius: 20px;
 }
-.cr-main-add-dialog-con{
+.cr-main-dialog-con{
     padding: 0.1rem;
     border-radius: 17px;
     background-color: #E0EDD4;
 }
-.cr-main-add-dialog-con > input{
+.cr-main-dialog-warn{
+    display: none;
+    color: #FF3816;
+}
+.cr-main-dialog-con > input{
     margin: 0.1rem 0;
     width: 100%;
     height: 0.22rem;
     border: 1px solid #747474;
 }
-.cr-main-add-dialog-con > div > button{
+.cr-main-dialog-con > div > button{
     padding: 0 0.08rem;
     border: 2px solid #000;
     border-radius: 15px;
     line-height: 1.5;
 }
-.cr-main-add-dialog-con > div > button:first-child{
+.cr-main-dialog-con > div > button:first-child{
     margin-right: 0.08rem;
 }
 .cr-main-triangle{

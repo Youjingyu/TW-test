@@ -101,9 +101,10 @@
                                     <% } %>
                                 </div>
                             </div>
-                            <div class="cr-main-add-dialog js-dialog">
-                                <div class="cr-main-add-dialog-con">
+                            <div class="cr-main-dialog js-dialog">
+                                <div class="cr-main-dialog-con">
                                     <span>(separate multiple resources name with commas)</span>
+                                    <span class="cr-main-dialog-warn js-dialog-warn">can not be empty.</span>
                                     <input>
                                     <div>
                                         <button class="js-dialog-add">Add resources</button>
@@ -155,10 +156,11 @@
             agent_item: '.js-agent-item',
             add_res: '.js-add-res',
             delete_res: '.js-delete-res',
+            res_container: '.js-res-container',
             dialog: '.js-dialog',
             dialog_close: '.js-dialog-close',
             dialog_add: '.js-dialog-add',
-            res_container: '.js-res-container'
+            dialog_warn: '.js-dialog-warn'
         }
         Cr.js_hook = js_hook;
 
@@ -209,10 +211,20 @@
                 var $this = Cr.wrap(this);
                 var $dialog = $this.parent(js_hook.dialog);
                 var $input = $dialog.getEle('input')[0];
-                var resources = $input.value.split(/[ ]*,[ ]*/);
-                Cr.addRes($dialog.parentNode, resources);
-                $input.value = '';
-                hideDialog($dialog);
+                if($input.value === ''){
+                    $dialog.getEle(js_hook.dialog_warn)[0].show();
+                } else {
+                    var resources = $input.value.split(/[ ]*,[ ]*/);
+                    Cr.addRes($dialog.parentNode, resources);
+                    $input.value = '';
+                    hideDialog($dialog);
+                }
+            });
+            $dialogs.on('input', 'input', function () {
+                var $this = Cr.wrap(this);
+                if(this.value !== ''){
+                    $this.parent(js_hook.dialog).getEle(js_hook.dialog_warn)[0].hide();
+                }
             });
         }
         function showDialog(cur_dialog) {
