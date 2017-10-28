@@ -64,9 +64,9 @@
                     <script type="template" id="agent_list_templ">
                         <% for( var i = 0; i < data.length; i++) { %>
                         <% if(data[i].status === 'idle'){ %>
-                        <li class="cr-main-item cr-clearfix cr-main-item-idle">
+                        <li class="cr-main-item cr-clearfix cr-main-item-idle js-agent-item">
                         <% }else{ %>
-                        <li class="cr-main-item cr-clearfix cr-main-item-building">
+                        <li class="cr-main-item cr-clearfix cr-main-item-building js-agent-item">
                         <% } %>
                             <i></i>
                             <div class="cr-main-item-content">
@@ -86,10 +86,10 @@
                                     </span>
                                     <span class="cr-main-item-line">|</span>
                                     <span>Resources:</span>
-                                    <div class="cr-main-item-reso">
+                                    <div class="cr-main-item-reso js-res-container">
                                         <% for(var j = 0; j < data[i].resources.length; j++) { %>
                                         <span>
-                                        <%=data[i].resources[j]%><i class="cr-main-item-icon cr-main-item-delete"></i>
+                                        <%=data[i].resources[j]%><i class="cr-main-item-icon cr-main-item-delete js-delete-res"></i>
                                         </span>
                                         <% } %>
                                     </div>
@@ -101,7 +101,7 @@
                                     <% } %>
                                 </div>
                             </div>
-                            <div class="cr-main-add-dialog">
+                            <div class="cr-main-add-dialog js-dialog">
                                 <div class="cr-main-add-dialog-con">
                                     <span>(separate multiple resources name with commas)</span>
                                     <input>
@@ -152,12 +152,13 @@
             header_nav: '#header_nav',
             main_nav: '#main_nav',
             agent_list: '#agent_list',
+            agent_item: '.js-agent-item',
             add_res: '.js-add-res',
-            delete_res: '.cr-main-item-delete',
-            dialog: '.cr-main-add-dialog',
+            delete_res: '.js-delete-res',
+            dialog: '.js-dialog',
             dialog_close: '.js-dialog-close',
             dialog_add: '.js-dialog-add',
-            res_container: '.cr-main-item-reso'
+            res_container: '.js-res-container'
         }
         Cr.js_hook = js_hook;
 
@@ -190,7 +191,8 @@
         });
         // show dialog
         $agent_list.on('click', js_hook.add_res, function () {
-            showDialog(this.parentNode.parentNode.nextSibling.nextSibling);
+            var $this = Cr.wrap(this);
+            showDialog($this.parent(js_hook.agent_item).getEle(js_hook.dialog)[0]);
         });
 
         Cr.refreshList(Cr.agent_type, addAgentListEvent);
@@ -199,11 +201,13 @@
             $dialogs = Cr.getEle(js_hook.dialog);
             // hide dialog
             $dialogs.on('click', js_hook.dialog_close, function () {
-                hideDialog(this.parentNode.parentNode.parentNode);
+                var $this = Cr.wrap(this);
+                hideDialog($this.parent(js_hook.dialog));
             });
             // dialog add
             $dialogs.on('click', js_hook.dialog_add, function () {
-                var $dialog = Cr.wrap(this.parentNode.parentNode.parentNode);
+                var $this = Cr.wrap(this);
+                var $dialog = $this.parent(js_hook.dialog);
                 var $input = $dialog.getEle('input')[0];
                 var resources = $input.value.split(/[ ]*,[ ]*/);
                 Cr.addRes($dialog.parentNode, resources);
