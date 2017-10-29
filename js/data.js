@@ -1,4 +1,6 @@
+/******** data operation **********/
 (function(Cr){
+    // test data(get from server in production)
     var data = {
         physical: {
             agents: [
@@ -47,13 +49,26 @@
         },
     };
     var data_operation = {
+        // get resources
         getData: function () {
             return data;
         },
+        /**
+         * add resources
+         * @param type: agent type
+         * @param list_index: the list item user is operating
+         * @param res_index: the resources array wants to add
+         */
         addRes: function (type, list_index, resources) {
             var po = getUpdateDataPosition(type, list_index);
             data[po.type].agents[po.index].resources = data[po.type].agents[po.index].resources.concat(resources);
         },
+        /**
+         * delete resource
+         * @param type: agent type
+         * @param list_index: the list item user is operating
+         * @param res_index: the resource item user wants to delete
+         */
         deleteRes: function (type, list_index, res_index) {
             var po = getUpdateDataPosition(type, list_index);
             data[po.type].agents[po.index].resources.splice(res_index, 1);
@@ -61,11 +76,15 @@
     }
     Cr.data = data_operation;
 
+    // get which data to update according to user's operation
     function getUpdateDataPosition(type, list_index) {
+        // default position
         var data_to_update = {
             type: type,
             index: list_index
         }
+        // if user is operating 'all' data,
+        // we need to judge whether the user is operating 'physical' or 'virtual'
         if(type === 'all'){
             var physical_len = data.physical.agents.length;
             if(list_index > physical_len - 1){

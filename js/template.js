@@ -1,3 +1,4 @@
+/******** rendering function **********/
 (function(Cr, doc){
     // cache template function
     var cache = {};
@@ -5,7 +6,7 @@
     // and use the parent node to render html every time
     var templ_parent_node_cache = {};
 
-    // render function
+    // rendering function
     Cr.render = function render(str, data){
         var $ele = doc.getElementById(str);
 

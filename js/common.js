@@ -1,7 +1,10 @@
+/******** view operation **********/
 (function (Cr, doc) {
+    // refresh agent list
     Cr.refreshList = function (agent_type, callback) {
         var data = Cr.data.getData();
         var list_data, summary_data, hisory_data;
+        // get agent list data by agent type
         if(agent_type === 'all'){
             list_data = data['physical']['agents'].concat(data['virtual']['agents']);
             hisory_data = data['physical']['history'].concat(data['virtual']['history']);
@@ -10,12 +13,13 @@
             hisory_data = data[agent_type]['history'];
         }
         summary_data = agentSummary(list_data);
-        // init agents information
+        // render agents information
         Cr.render('agent_list_templ', list_data);
         Cr.render('summary_templ', summary_data);
         Cr.render('history_list_templ', hisory_data);
         callback && callback();
 
+        // summary agent data
         function agentSummary(data) {
             var summary = {
                 building: 0,
@@ -32,8 +36,11 @@
         }
     };
 
+    // add resources
     Cr.addRes = function ($list_item, resources) {
+        // get resource container to append resources element
         var $res_con = Cr.wrap($list_item).getEle(Cr.js_hook.res_container)[0];
+        // append all resources to $res_con
         resources.forEach(function (resource) {
             var $span = doc.createElement('span');
             $span.textContent = resource;
@@ -46,9 +53,12 @@
         Cr.data.addRes(Cr.agent_type, Cr.wrap($list_item).indexOfParent(), resources);
     }
 
+    // delete resource
     Cr.deleteRes = function (delete_dom) {
-        var delete_list_index = Cr.wrap(delete_dom.parentNode.parentNode.parentNode.parentNode).indexOfParent();
-        var delete_res_index = Cr.wrap(delete_dom).indexOfParent();
+        var $delete_dom = Cr.wrap(delete_dom);
+        // use the dom user click to computed which data to update
+        var delete_list_index = $delete_dom.parent(Cr.js_hook.agent_item).indexOfParent();
+        var delete_res_index = $delete_dom.indexOfParent();
         if(delete_list_index > -1 && delete_res_index > -1){
             // synchronize views and data
             Cr.data.deleteRes(Cr.agent_type, delete_list_index, delete_res_index);

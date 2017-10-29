@@ -1,5 +1,27 @@
+/****** dom operation *******/
 (function(Cr, doc){
-    Cr.getEle = function (css_selector, parent) {
+    Cr.wrap = wrap;
+    Cr.getEle = getEle;
+
+    // wrap dom to operate dom easily
+    function wrap(dom) {
+        dom.getEle = function (css_selector) {
+            // use current element as parent to query children
+            return getEle(css_selector, this);
+        }
+        dom.on = addEvent;
+        dom.addClass = addClass;
+        dom.removeClass = removeClass;
+        dom.hasClass = hasClass;
+        dom.indexOfParent = indexOfParent;
+        dom.parent = parent;
+        dom.hide = hide;
+        dom.show = show;
+        // return dom to chain call
+        return dom;
+    }
+    // get element by tag name, class and id selector
+    function getEle(css_selector, parent) {
         parent = parent || doc;
         var dom = null;
         // only return one element for id selector
@@ -8,6 +30,7 @@
             wrap(dom);
         } else {
             dom = parent.querySelectorAll(css_selector);
+            // wrap each element
             [].forEach.call(dom, function (ele) {
                 wrap(ele);
             });
@@ -20,24 +43,7 @@
         }
         return dom;
     }
-    Cr.wrap = wrap;
-
-    function wrap(dom) {
-        // add method to chain call
-        dom.getEle = function (css_selector) {
-            // use current element as parent to query children
-            return Cr.getEle(css_selector, this);
-        }
-        dom.on = addEvent;
-        dom.addClass = addClass;
-        dom.removeClass = removeClass;
-        dom.hasClass = hasClass;
-        dom.indexOfParent = indexOfParent;
-        dom.parent = parent;
-        dom.hide = hide;
-        dom.show = show;
-        return dom;
-    }
+    // add event
     function addEvent(type, target_sel, callback) {
         var _this = this;
         if(typeof target_sel === 'function'){
@@ -77,6 +83,7 @@
             this[eventCache][target_sel] = callback;
         }
     }
+    // remove class
     function removeClass(clas_name) {
         var cur_class = this.getAttribute('class');
         if(cur_class){
@@ -84,13 +91,16 @@
             this.setAttribute('class', cur_class.replace(new RegExp(clas_name), ''));
         }
     }
+    // add class
     function addClass(clas_name) {
         var cur_class = this.getAttribute('class');
         this.setAttribute('class', cur_class ? cur_class + ' ' + clas_name : clas_name);
     }
+    // whether element has the class
     function hasClass(clas_name) {
         return new RegExp(clas_name).test(this.getAttribute('class'));
     }
+    // get element positio of parent
     function indexOfParent() {
         var children = this.parentNode.childNodes;
         // filter text node
@@ -104,6 +114,7 @@
         };
         return -1;
     }
+    // get parents by selector
     function parent(selector) {
         var parent = this.parentNode;
         if(selector){
@@ -118,16 +129,19 @@
             return wrap(parent);
         }
     }
+    // hide element
     function hide() {
         this.setAttribute('style', 'display: none');
     }
+    // show element
     function show() {
         // only support block element
         this.setAttribute('style', 'display: block');
     }
 
-    // only surpport tagName, id, and class selector
+    // whether the element matches the selector
     function testSelector(selctor, target) {
+        // only surpport tagName, id, and class selector
         if(/^#/.test(selctor)){
             // id selector
             return '#' + target.getAttribute('id') === selctor;
