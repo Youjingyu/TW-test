@@ -20,7 +20,7 @@
         // return dom to chain call
         return dom;
     }
-    // get element by tag name, class and id selector
+    // get element by tagname, class and id selector
     function getEle(css_selector, parent) {
         parent = parent || doc;
         var dom = null;
@@ -51,20 +51,20 @@
                 target_sel.call(_this, event);
             })
         } else if(typeof target_sel === 'string'){
-            // only execute addEventListener once
+            // only execute addEventListener once on the same agent element,
             // for listener added later, just use selector as key to cache callback function in this[eventCache]
             var eventCache = 'data-' + type + '-obj';
             // if a listener has been added, there will be eventCache
             if(!this[eventCache]){
-                // save listener function
                 this[eventCache] = {};
+                // save callback function
                 this[eventCache][target_sel] = callback;
                 this.addEventListener(type, function (event) {
                     var target = event.target;
-                    // get test function according to selector type
                     while(target){
+                        // traverse all cached event callback function in the agent elment,
+                        // and check whether the target matches the key(ie selector)
                         for(var sel in _this[eventCache]){
-                            // if target match the selector
                             if(testSelector(sel, target)){
                                 // execute cached callback function
                                 _this[eventCache][sel] && _this[eventCache][sel].call(target, event);
@@ -79,7 +79,7 @@
                 });
             }
 
-            // save repeat listener function
+            // use target selector to save callback function
             this[eventCache][target_sel] = callback;
         }
     }
@@ -100,7 +100,7 @@
     function hasClass(clas_name) {
         return new RegExp(clas_name).test(this.getAttribute('class'));
     }
-    // get element positio of parent
+    // get element position of parent
     function indexOfParent() {
         var children = this.parentNode.childNodes;
         // filter text node

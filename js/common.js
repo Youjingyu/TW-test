@@ -1,6 +1,10 @@
 /******** view operation **********/
 (function (Cr, doc) {
-    // refresh agent list
+    /**
+     * refresh agent list
+     * @param agent_type: agent type
+     * @param callback: callback function
+     */
     Cr.refreshList = function (agent_type, callback) {
         var data = Cr.data.getData();
         var list_data, summary_data, hisory_data;
@@ -13,7 +17,7 @@
             hisory_data = data[agent_type]['history'];
         }
         summary_data = agentSummary(list_data);
-        // render agents information
+        // render agent information
         Cr.render('agent_list_templ', list_data);
         Cr.render('summary_templ', summary_data);
         Cr.render('history_list_templ', hisory_data);
@@ -36,7 +40,11 @@
         }
     };
 
-    // add resources
+    /**
+     * add resources
+     * @param $list_item: which list item to add resources
+     * @param resources: array of resources
+     */
     Cr.addRes = function ($list_item, resources) {
         // get resource container to append resources element
         var $res_con = Cr.wrap($list_item).getEle(Cr.js_hook.res_container)[0];
@@ -53,10 +61,13 @@
         Cr.data.addRes(Cr.agent_type, Cr.wrap($list_item).indexOfParent(), resources);
     }
 
-    // delete resource
+    /**
+     * delete resource
+     * @param delete_dom: the span element that user click
+     */
     Cr.deleteRes = function (delete_dom) {
         var $delete_dom = Cr.wrap(delete_dom);
-        // use the dom user click to computed which data to update
+        // use the dom that user click to compute which data to update
         var delete_list_index = $delete_dom.parent(Cr.js_hook.agent_item).indexOfParent();
         var delete_res_index = $delete_dom.indexOfParent();
         if(delete_list_index > -1 && delete_res_index > -1){
