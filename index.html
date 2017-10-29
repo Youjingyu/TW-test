@@ -8,35 +8,30 @@
     <meta name="format-detection" content="telephone=no" />
     <title>Cruise</title>
     <script>
+        // set font size of root element for rem
         (function (doc, win) {
             var docEl = doc.documentElement,
                 resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
                 recalc = function () {
                     var clientWidth = docEl.clientWidth;
                     if (!clientWidth) return;
-//                    if(clientWidth>=640){
-//                        docEl.style.fontSize = '100px';
-//                    }else{
-//                        docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
-//                    }
+                    // use 1600px as max width
                     clientWidth = clientWidth > 1600 ? 1600 : clientWidth;
                     docEl.style.fontSize = 100 * (clientWidth / 1220) + 'px';
                 };
-
-            if (!doc.addEventListener) return;
+            // add event listener to recalculate
             win.addEventListener(resizeEvt, recalc, false);
+            // calculate when DOMContentLoaded
             doc.addEventListener('DOMContentLoaded', recalc, false);
         })(document, window);
     </script>
-    <!--[if lt IE 9]>
-    <script src=".js/lib/html5shiv.js"></script>
-    <![endif]-->
     <link rel="stylesheet" href="./css/normalize.css">
     <link rel="stylesheet" href="./css/common.css">
     <link rel="stylesheet" href="./css/mobile.css">
 </head>
 <body>
     <div class="cr-container">
+        <!-------header start------->
         <header class="cr-header cr-clearfix">
             <h1 class="cr-header-title">Cruise</h1>
             <div class="cr-header-right">
@@ -52,7 +47,10 @@
                 </ul>
             </div>
         </header>
+        <!-------header end------->
+        <!-------main start------->
         <main class="cr-main">
+            <!--main nav start-->
             <div class="cr-main-nav cr-clearfix">
                 <h3>Agents</h3>
                 <ul class="cr-main-nav-list" id="main_nav">
@@ -61,8 +59,10 @@
                     <li><a href="#" data-agent-type="virtual">Virtual</a></li>
                 </ul>
             </div>
+            <!--main nav end-->
             <div class="cr-main-content cr-clearfix">
                 <ul class="cr-main-list" id="agent_list">
+                    <!--list templte start-->
                     <script type="template" id="agent_list_templ">
                         <% for( var i = 0; i < data.length; i++) { %>
                         <% if(data[i].status === 'idle'){ %>
@@ -103,6 +103,7 @@
                                     <% } %>
                                 </div>
                             </div>
+                            <!--dialog start-->
                             <div class="cr-main-dialog js-dialog">
                                 <div class="cr-main-dialog-con">
                                     <span>(separate multiple resources name with commas)</span>
@@ -115,10 +116,13 @@
                                 </div>
                                 <div class="cr-main-triangle"></div>
                             </div>
+                            <!--dialog end-->
                         </li>
                         <% } %>
                     </script>
+                    <!--list templte end-->
                 </ul>
+                <!--summary start-->
                 <div class="cr-main-summary-con">
                     <div class="cr-main-summary">
                         <h4>Summary</h4>
@@ -140,6 +144,7 @@
                         </ul>
                     </div>
                 </div>
+                <!--summary end-->
             </div>
         </main>
     </div>
@@ -164,8 +169,16 @@
             dialog_add: '.js-dialog-add',
             dialog_warn: '.js-dialog-warn'
         }
-        Cr.js_hook = js_hook;
+        var $main_nav = Cr.getEle(js_hook.main_nav);
 
+        Cr.js_hook = js_hook;
+        // save agent type
+        Cr.agent_type = $main_nav.getEle('.active')[0].getAttribute('data-agent-type');
+        // init agent list
+        Cr.refreshList(Cr.agent_type);
+
+        /*********** init event start **********/
+        // header nav switching event
         var $header_nav = Cr.getEle(js_hook.header_nav);
         $header_nav.on('click', 'a', function () {
             var $this = Cr.wrap(this);
@@ -176,63 +189,69 @@
             }
         });
 
-        var $main_nav = Cr.getEle(js_hook.main_nav);
-        Cr.agent_type = $main_nav.getEle('.active')[0].getAttribute('data-agent-type');
+        // mian header nav switching event
         $main_nav.on('click', 'a', function () {
             var $this = Cr.wrap(this);
             if(!$this.hasClass('active')){
                 $main_nav.getEle('.active')[0].removeClass('active');
                 $this.addClass('active');
+                // refresh agent list when switch nav
                 Cr.agent_type = this.getAttribute('data-agent-type');
-                Cr.refreshList(Cr.agent_type, addAgentListEvent);
+                Cr.refreshList(Cr.agent_type);
             }
         });
 
         var $agent_list = Cr.getEle(js_hook.agent_list);
+
         // delete resources
         $agent_list.on('click', js_hook.delete_res, function () {
             Cr.deleteRes(this.parentNode);
         });
-        // show dialog
+
+        // click 'Specify Resources' to add resource
         $agent_list.on('click', js_hook.add_res, function () {
             var $this = Cr.wrap(this);
             showDialog($this.parent(js_hook.agent_item).getEle(js_hook.dialog)[0]);
         });
 
-        Cr.refreshList(Cr.agent_type, addAgentListEvent);
-        var $dialogs;
-        function addAgentListEvent() {
-            $dialogs = Cr.getEle(js_hook.dialog);
-            // hide dialog
-            $dialogs.on('click', js_hook.dialog_close, function () {
-                var $this = Cr.wrap(this);
-                hideDialog($this.parent(js_hook.dialog));
-            });
-            // dialog add
-            $dialogs.on('click', js_hook.dialog_add, function () {
-                var $this = Cr.wrap(this);
-                var $dialog = $this.parent(js_hook.dialog);
-                var $input = $dialog.getEle('input')[0];
-                if($input.value === ''){
-                    $dialog.getEle(js_hook.dialog_warn)[0].show();
-                } else {
-                    var val = $input.value.replace(/(^\s*)|(\s*$)/g,'');
-                    var resources = val.split(/[ ]*,[ ]*/);
-                    Cr.addRes($dialog.parentNode, resources);
-                    $input.value = '';
-                    hideDialog($dialog);
-                }
-            });
-            $dialogs.on('input', 'input', function () {
-                var $this = Cr.wrap(this);
-                if(this.value !== ''){
-                    $this.parent(js_hook.dialog).getEle(js_hook.dialog_warn)[0].hide();
-                }
-            });
-        }
+        // close dialog
+        $agent_list.on('click', js_hook.dialog_close, function () {
+            var $this = Cr.wrap(this);
+            hideDialog($this.parent(js_hook.dialog));
+        });
+
+        // click the add button to add resource
+        $agent_list.on('click', js_hook.dialog_add, function () {
+            var $this = Cr.wrap(this);
+            var $dialog = $this.parent(js_hook.dialog);
+            var $input = $dialog.getEle('input')[0];
+            // if the input value is empty, show warnning message
+            if(/^\s*$/.test($input.value)){
+                $dialog.getEle(js_hook.dialog_warn)[0].show();
+            } else {
+                // remove the start and end blank characters
+                var val = $input.value.replace(/(^\s*)|(\s*$)/g,'');
+                // use commas to split input value into array
+                var resources = val.split(/[ ]*,[ ]*/);
+                // call Cr.addRes to synchronize views and data
+                Cr.addRes($dialog.parentNode, resources);
+                // empety input
+                $input.value = '';
+                hideDialog($dialog);
+            }
+        });
+
+        $agent_list.on('input', 'input', function () {
+            var $this = Cr.wrap(this);
+            // hide warning message when input non-blank characters
+            if(/^\s*$/.test(this.value)){
+                $this.parent(js_hook.dialog).getEle(js_hook.dialog_warn)[0].hide();
+            }
+        });
+
         function showDialog(cur_dialog) {
             // hide all dialog
-            [].forEach.call($dialogs, function (dialog) {
+            [].forEach.call($agent_list.getEle(js_hook.dialog), function (dialog) {
                 dialog.hide();
             });
             // show current dialog
@@ -241,6 +260,7 @@
         function hideDialog(cur_dialog) {
             cur_dialog.hide();
         }
+        /*********** init event end **********/
     })()
 </script>
 </html>
