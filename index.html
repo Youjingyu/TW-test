@@ -20,9 +20,13 @@
                     docEl.style.fontSize = 100 * (clientWidth / 1220) + 'px';
                 };
             // add event listener to recalculate
-            win.addEventListener(resizeEvt, recalc, false);
+            win.addEventListener(resizeEvt, recalc);
             // calculate when DOMContentLoaded
-            doc.addEventListener('DOMContentLoaded', recalc, false);
+            doc.addEventListener('DOMContentLoaded', function () {
+                recalc();
+                // show body after calculating to avoid user see the calculation process
+                doc.getElementsByTagName('body')[0].setAttribute('style', 'display: block;');
+            });
         })(document, window);
     </script>
     <link rel="stylesheet" href="./css/normalize.css">

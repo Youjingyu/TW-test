@@ -3,6 +3,7 @@ body{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
     color: #333;
+    display: none;
 }
 a{
     text-decoration: none;
@@ -97,7 +98,7 @@ button:focus{
 .cr-header-nav > li > .active{
     padding-top: 0.14rem;
     padding-bottom: 0.14rem;
-    margin-bottom: -3px;
+    margin-bottom: -3.5px;
     color: #E7E7E7;
     background-color: #606060;
 }
